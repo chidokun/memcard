@@ -1,7 +1,7 @@
 import { App, BrowserWindow } from 'electron'
 import { TrayMenu } from './TrayMenu'
 import { Window } from './Window'
-import { AppConfig } from './configs/AppConfig'
+import { appConfig, AppConfig } from './configs/AppConfig'
 import { CollectionManager } from './collections/CollectionManager'
 import { ReminderManager } from './reminder/ReminderManager'
 import { RandomRemindPolicy } from './reminder/RandomRemindPolicy'
@@ -11,14 +11,12 @@ class AppManager {
     private trayMenu!: TrayMenu
     private windowManager: Map<string, Window>
     private runtimeConfigManager: Map<string, any>
-    private userConfigManager: AppConfig
     private collectionManager: CollectionManager
     private reminderManager: ReminderManager
 
     public initialize(): void {
         this.windowManager = new Map()
         this.runtimeConfigManager = new Map()
-        this.userConfigManager = new AppConfig()
         this.collectionManager = new CollectionManager()
         
         this.reminderManager = this.loadReminderManager()
@@ -27,22 +25,17 @@ class AppManager {
 
         this.collectionManager.setAfterCollectionLoading(() => {
             this.trayMenu.reloadContextMenu()
-            this.reminderManager.setCollection(this.collectionManager.getCollection(this.userConfigManager.get('currentCollection')))
         })
+
+        const reminderEnable = appConfig.get('reminderEnable')
+        if (reminderEnable) {
+            this.reminderManager.startRemind()
+        }
     }
 
     private loadReminderManager(): ReminderManager {
-        const reminderManager = new ReminderManager()
-        console.log(this)
-
-        reminderManager.setRemindPolicy(new RandomRemindPolicy())
-
-        const defaultCollection = this.userConfigManager.get('currentCollection')
-        const collection = this.collectionManager.getCollection(defaultCollection)
-        reminderManager.setCollection(collection)
-        console.log(this)
-        
-        reminderManager.setRemindTime(this.userConfigManager.get('reminderTimeMinutes'))
+        const remindPolicy = new RandomRemindPolicy(this.collectionManager)
+        const reminderManager = new ReminderManager(remindPolicy)
 
         return reminderManager
     }
@@ -92,8 +85,28 @@ class AppManager {
         return this.collectionManager
     }
 
-    getUserConfig(): AppConfig {
-        return this.userConfigManager
+    handleEnableRemider = () => {
+        const reminderEnable = appConfig.get('reminderEnable')
+        console.log('enable reminder', this.reminderManager)
+        if (!reminderEnable) {
+            appConfig.set('reminderEnable', true)
+
+            this.reminderManager.startRemind()
+        }
+    }
+
+    handleDisableRemider = () => {
+        const reminderEnable = appConfig.get('reminderEnable')
+        console.log('disable reminder', this.reminderManager)
+        if (reminderEnable) {
+            appConfig.set('reminderEnable', false)
+            this.reminderManager.stopRemind()
+        }
+    }
+
+    handleSetReminderTime = (minutes: number) => {
+        appConfig.set('reminderTimeMinutes', minutes)
+        this.reminderManager.reloadReminderTime()
     }
 }
 

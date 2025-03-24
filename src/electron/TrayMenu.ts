@@ -1,5 +1,6 @@
 import { app, Tray, Menu, nativeImage } from 'electron';
 import { appManager } from './AppManager';
+import { appConfig } from './configs/AppConfig';
 
 export class TrayMenu {
     // Create a variable to store our tray
@@ -32,7 +33,6 @@ export class TrayMenu {
     }
 
     createMenu(): Menu {
-        const userConfig = appManager.getUserConfig();
         const contextMenu = Menu.buildFromTemplate([
             {
                 label: 'Nhắc thẻ tiếp theo',
@@ -53,9 +53,9 @@ export class TrayMenu {
                         return {
                             label: collectionName,
                             type: 'radio',
-                            checked: userConfig.get('currentCollection') === collectionName,
+                            checked: appConfig.get('currentCollection') === collectionName,
                             click: () => {
-                                userConfig.set('currentCollection', collectionName);
+                                appConfig.set('currentCollection', collectionName);
                             }
                         }
                     }))
@@ -67,35 +67,43 @@ export class TrayMenu {
                 type: 'submenu',
                 submenu: Menu.buildFromTemplate([
                     {
+                        label: '1 phút',
+                        type: 'radio',
+                        checked: appConfig.get('reminderTimeMinutes') === 1,
+                        click: () => {
+                            appManager.handleSetReminderTime(1);
+                        }
+                    },
+                    {
                         label: '5 phút',
                         type: 'radio',
-                        checked: userConfig.get('reminderTimeMinutes') === 5,
+                        checked: appConfig.get('reminderTimeMinutes') === 5,
                         click: () => {
-                            userConfig.set('reminderTimeMinutes', 5);
+                            appManager.handleSetReminderTime(5);
                         }
                     },
                     {
                         label: '10 phút',
                         type: 'radio',
-                        checked: userConfig.get('reminderTimeMinutes') === 10,
+                        checked: appConfig.get('reminderTimeMinutes') === 10,
                         click: () => {
-                            userConfig.set('reminderTimeMinutes', 10);
+                            appManager.handleSetReminderTime(10);
                         }
                     },
                     {
                         label: '15 phút',
                         type: 'radio',
-                        checked: userConfig.get('reminderTimeMinutes') === 15,
+                        checked: appConfig.get('reminderTimeMinutes') === 15,
                         click: () => {
-                            userConfig.set('reminderTimeMinutes', 15);
+                            appManager.handleSetReminderTime(15);
                         }
                     },
                     {
                         label: '30 phút',
                         type: 'radio',
-                        checked: userConfig.get('reminderTimeMinutes') === 30,
+                        checked: appConfig.get('reminderTimeMinutes') === 30,
                         click: () => {
-                            userConfig.set('reminderTimeMinutes', 30);
+                            appManager.handleSetReminderTime(30);
                         }
                     }
                 ])
@@ -106,18 +114,14 @@ export class TrayMenu {
             {
                 label: 'Tạm dừng nhắc nhở',
                 type: 'radio',
-                checked: !userConfig.get('reminderEnable'),
-                click: () => {
-                    userConfig.set('reminderEnable', false);
-                }
+                checked: appConfig.get('reminderEnable') === false,
+                click: appManager.handleDisableRemider
             },
             {
                 label: 'Tiếp tục nhắc nhở',
                 type: 'radio',
-                checked: userConfig.get('reminderEnable'),
-                click: () => {
-                    userConfig.set('reminderEnable', true);
-                }
+                checked: appConfig.get('reminderEnable') === true,
+                click: appManager.handleEnableRemider
             },
             {
                 type: 'separator'
@@ -128,6 +132,7 @@ export class TrayMenu {
                 click: () => app.quit()
             }
         ]);
+        console.log(appConfig.get('reminderEnable'))
         return contextMenu;
     }
 }

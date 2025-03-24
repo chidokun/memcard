@@ -1,15 +1,17 @@
-import { Collection } from "../collections/Collection";
-import { RemindPolicy } from "./RemindPolicy";
+import { CollectionManager } from "../collections/CollectionManager"
+import { RemindPolicy } from "./RemindPolicy"
 
 export class RandomRemindPolicy implements RemindPolicy {
-    private collection: Collection
+    private collectionManager: CollectionManager
 
-    setCollection(collection: Collection): void {
-        this.collection = collection
+    constructor(collectionManager: CollectionManager) {
+        this.collectionManager = collectionManager
     }
 
     nextRemind(): any {
-        const randomIndex = Math.floor(Math.random() * this.collection.getData().length)
-        return this.collection.getData()[randomIndex]
+        const collection = this.collectionManager.getCurrentCollection()
+        const randomIndex = Math.floor(Math.random() * collection.getData().length)
+        
+        return collection.getData()[randomIndex]
     }
 }

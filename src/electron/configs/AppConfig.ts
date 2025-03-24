@@ -39,3 +39,5 @@ export class AppConfig {
         this.store.set(key, value);
     }
 }
+
+export const appConfig = new AppConfig();

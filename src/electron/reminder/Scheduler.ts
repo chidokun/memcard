@@ -1,27 +1,28 @@
-import { CronJob } from 'cron';
-
 export class Scheduler {
-    private job: CronJob;
+    private id: NodeJS.Timeout | undefined
+    private task: () => void
+    private minutes: number
 
-    constructor(task: () => void, cronTime: string) {
-        this.job = new CronJob(cronTime, task, null, true);
+    constructor(task: () => void, minutes: number) {
+        this.task = task
+        this.minutes = minutes
     }
 
-    public start(): void {
-        if (!this.job.isActive) {
-            this.job.start();
-        }
+    public start = () => {
+        this.id = setInterval(this.task, this.minutes * 60 * 1000);
+        console.log('Scheduler started: id =', this.id);
     }
 
-    public stop(): void {
-        if (this.job.isActive) {
-            this.job.stop();
-        }
+    public stop = () => {
+        clearInterval(this.id);
+        this.id = undefined;
+        console.log('Scheduler stopped: id =', this.id);
     }
 
-    public updateSchedule(task: () => void, cronTime: string): void {
+    public updateSchedule = (task: () => void, minutes: number) => {
         this.stop();
-        this.job = new CronJob(cronTime, task, null, true);
+        this.task = task;
+        this.minutes = minutes;
         this.start();
     }
 }

@@ -24,5 +24,13 @@ export abstract class Window {
         this.window.hide()
     }
 
+    isVisible(): boolean {
+        return this.window.isVisible()
+    }
+
+    sendRenderEvent(event: string, data: any): void {
+        this.window.webContents.send(event, data)
+    }
+
     abstract createWindow(): BrowserWindow
 }

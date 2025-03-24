@@ -26,10 +26,11 @@ export class ReminderManager {
     }
 
     public remind = () => {
-        // TODO
-        console.log('Remind: ', new Date())
         const window = appManager.getWindow('FlashcardWindow')
-        window.show()
-        this.reminderPolicy.nextRemind()
+        const flashcard = this.reminderPolicy.nextRemind()
+        window.sendRenderEvent('display-flashcard', flashcard)
+        if (!window.isVisible()) {
+            window.show()
+        }
     }
 }

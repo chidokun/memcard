@@ -1,3 +1,5 @@
+import { Flashcard } from "../collections/Flashcard";
+
 export interface RemindPolicy {
-    nextRemind(): any
+    nextRemind(): Flashcard
 }

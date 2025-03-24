@@ -48,3 +48,4 @@ ipcMain.on('close-window', (event, data) => {
         appManager.getWindow(name).hide();
     }
 });
+

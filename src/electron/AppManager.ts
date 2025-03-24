@@ -85,9 +85,16 @@ class AppManager {
         return this.collectionManager
     }
 
+    reloadReminder = () => {
+        this.reminderManager.stopRemind()
+        const reminderEnable = appConfig.get('reminderEnable')
+        if (reminderEnable) {  
+            this.reminderManager.startRemind()
+        }
+    }
+
     handleEnableRemider = () => {
         const reminderEnable = appConfig.get('reminderEnable')
-        console.log('enable reminder', this.reminderManager)
         if (!reminderEnable) {
             appConfig.set('reminderEnable', true)
 
@@ -97,7 +104,6 @@ class AppManager {
 
     handleDisableRemider = () => {
         const reminderEnable = appConfig.get('reminderEnable')
-        console.log('disable reminder', this.reminderManager)
         if (reminderEnable) {
             appConfig.set('reminderEnable', false)
             this.reminderManager.stopRemind()
@@ -107,6 +113,10 @@ class AppManager {
     handleSetReminderTime = (minutes: number) => {
         appConfig.set('reminderTimeMinutes', minutes)
         this.reminderManager.reloadReminderTime()
+    }
+
+    handleNextRemind = () => {
+        this.reminderManager.remind()
     }
 }
 

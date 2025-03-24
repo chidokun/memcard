@@ -1,36 +1,38 @@
-import { Card, Button } from "antd";
+import { Button } from "antd";
 import { useState } from "react";
-import { LeftCircleOutlined, RightCircleOutlined, FrownOutlined, SmileOutlined, CloseOutlined } from "@ant-design/icons";
-import { motion } from "motion/react";
-import { app } from "electron";
-import { appManager } from "../../electron/AppManager";
+import { LeftCircleOutlined, RightCircleOutlined, FrownOutlined, SmileOutlined } from "@ant-design/icons";
+import { motion } from "framer-motion";
+import { FlashcardType } from "./FlashcardType";
 
 interface FlashcardProps {
     width: number;
     height: number;
+    data: FlashcardType;
+    showBack: boolean;
+    onShowBack: (showBack: boolean) => void;
 }
 
-export default function Flashcard({ width, height }: FlashcardProps) {
-    const [showSecondCard, setShowSecondCard] = useState(false);
+export default function Flashcard({ width, height, data, showBack, onShowBack }: FlashcardProps) {
 
     return (
         <div>
             <motion.div
                 initial={{ x: 0 }}
-                animate={{ x: showSecondCard ? "-100%" : "0%" }}
+                animate={{ x: showBack ? "-100%" : "0%" }}
                 transition={{ type: "spring", stiffness: 100 }}
             >
                 <div className="fcard" style={{ width, height }}>
                     <div className="fcard-content">
-                    <div style={{ display: "block", textAlign: "center", fontSize: "3rem", fontWeight: "bold" }}>이를 닦다</div>
+                        <div style={{ display: "block", textAlign: "center", fontSize: "3rem", fontWeight: "bold" }}>{data?.front}</div>
                     </div>
                     <div className="fcard-bottom">
                         <Button
+                            className="fcard-btn-show"
                             shape="circle"
                             icon={<RightCircleOutlined />}
                             type="text"
                             style={{ fontSize: "1.25rem" }}
-                            onClick={() => setShowSecondCard(true)}
+                            onClick={() => onShowBack(true)}
                         />
                     </div>
 
@@ -38,15 +40,15 @@ export default function Flashcard({ width, height }: FlashcardProps) {
             </motion.div>
             <motion.div
                 initial={{ x: "100%" }}
-                animate={{ x: showSecondCard ? "0%" : "100%" }}
+                animate={{ x: showBack ? "0%" : "100%" }}
                 transition={{ type: "spring", stiffness: 100 }}
             >
                 <div className="fcard" style={{ width, height }}>
                     <div className="fcard-content">
-                        <p>đánh răng</p>
+                        <p>{data?.back}</p>
                     </div>
                     <div className="fcard-bottom">
-                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<LeftCircleOutlined />} onClick={() => setShowSecondCard(false)} />
+                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<LeftCircleOutlined />} onClick={() => onShowBack(false)} />
                         <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<FrownOutlined />} />
                         <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<SmileOutlined />} />
                     </div>

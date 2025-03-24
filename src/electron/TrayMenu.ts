@@ -25,7 +25,6 @@ export class TrayMenu {
         // Since we never know where the app is installed,
         // we need to add the app base path to it.
         const path = `${app.getAppPath()}/src${this.iconPath}`;
-        console.log(path);
         const image = nativeImage.createFromPath(path);
         // Marks the image as a template image.
         image.setTemplateImage(true);
@@ -37,10 +36,7 @@ export class TrayMenu {
             {
                 label: 'Nhắc thẻ tiếp theo',
                 type: 'normal',
-                click: () => {
-                    /* Later this will open the Main Window */
-                    appManager.getWindow('FlashcardWindow').show();
-                }
+                click: appManager.handleNextRemind
             },
             {
                 type: 'separator'
@@ -60,6 +56,19 @@ export class TrayMenu {
                         }
                     }))
             }, {
+                type: 'separator'
+            }, {
+                label: 'Chế độ nhắc',
+                type: 'submenu',
+                submenu: Menu.buildFromTemplate([
+                    {
+                        label: 'Ngẫu nhiên',
+                        type: 'radio',
+                        checked: true
+                    }
+                ])
+            },
+            {
                 type: 'separator'
             },
             {
@@ -132,7 +141,6 @@ export class TrayMenu {
                 click: () => app.quit()
             }
         ]);
-        console.log(appConfig.get('reminderEnable'))
         return contextMenu;
     }
 }

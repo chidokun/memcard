@@ -1,6 +1,6 @@
 import { CollectionManager } from "../collections/CollectionManager"
 import { RemindPolicy } from "./RemindPolicy"
-
+import { Flashcard } from "../collections/Flashcard"
 export class RandomRemindPolicy implements RemindPolicy {
     private collectionManager: CollectionManager
 
@@ -8,10 +8,16 @@ export class RandomRemindPolicy implements RemindPolicy {
         this.collectionManager = collectionManager
     }
 
-    nextRemind(): any {
+    nextRemind(): Flashcard {
         const collection = this.collectionManager.getCurrentCollection()
         const randomIndex = Math.floor(Math.random() * collection.getData().length)
         
-        return collection.getData()[randomIndex]
+        const data = collection.getData()[randomIndex]
+        return {
+            collectionName: collection.getName(),
+            id: data["id"],
+            front: data["korean"],
+            back: data["vietnamese"],
+        }
     }
 }

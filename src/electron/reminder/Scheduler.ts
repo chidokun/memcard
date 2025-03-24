@@ -15,8 +15,8 @@ export class Scheduler {
 
     public stop = () => {
         clearInterval(this.id);
-        this.id = undefined;
         console.log('Scheduler stopped: id =', this.id);
+        this.id = undefined;
     }
 
     public updateSchedule = (task: () => void, minutes: number) => {

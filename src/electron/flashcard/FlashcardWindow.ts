@@ -6,6 +6,7 @@ export class FlashcardWindow extends Window {
 
     createWindow(): BrowserWindow {
         const window = new BrowserWindow({
+            title: "Memcard",
             height: 150,
             width: 400,
             show: false,
@@ -18,6 +19,13 @@ export class FlashcardWindow extends Window {
             visualEffectState: "followWindow",
             frame: false
         })
+
+        if (process.platform === "darwin") {
+            window.setVibrancy("under-window")
+        }
+        if (process.platform === "win32") {
+            window.setBackgroundMaterial("acrylic")
+        }
 
         // Set window position
         const primaryDisplay = screen.getPrimaryDisplay()

@@ -14,7 +14,7 @@ A desktop application designed to help you learn and memorize information effect
 - Ability to pause or resume reminders as needed
 
 <p align="center">
-  <img style="width:400px;" src="docs/images/memcard-demo.gif" alt="Memcard Demo">
+  <img style="width:500px;" src="docs/images/memcard-demo.gif" alt="Memcard Demo">
 </p>
 
 

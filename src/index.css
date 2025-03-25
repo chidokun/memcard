@@ -24,6 +24,7 @@ body {
 }
 
 .fcard-container {
+  app-region: drag;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }

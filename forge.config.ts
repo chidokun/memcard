@@ -17,7 +17,7 @@ const config: ForgeConfig = {
     icon: './src/assets/app/app-icon',
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [new MakerSquirrel({}, ['win32']), new MakerZIP({}, ['darwin', 'win32']), new MakerRpm({}), new MakerDeb({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({

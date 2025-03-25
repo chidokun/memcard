@@ -1,6 +1,7 @@
 import { app, Tray, Menu, nativeImage } from 'electron';
 import { appManager } from './AppManager';
 import { appConfig } from './configs/AppConfig';
+import path from 'path';
 
 export class TrayMenu {
     // Create a variable to store our tray
@@ -22,13 +23,39 @@ export class TrayMenu {
     }
 
     createNativeImage() {
-        // Since we never know where the app is installed,
-        // we need to add the app base path to it.
-        const path = `${app.getAppPath()}/src${this.iconPath}`;
-        const image = nativeImage.createFromPath(path);
-        // Marks the image as a template image.
-        image.setTemplateImage(true);
-        return image;
+        let imgPath: string;
+        
+        if (app.isPackaged) {
+            // Trong môi trường production (đã đóng gói)
+            imgPath = path.join(__dirname, this.iconPath);
+            console.log('Production path:', {
+                resourcesPath: process.resourcesPath,
+                iconPath: this.iconPath,
+                fullPath: imgPath
+            });
+        } else {
+            // Trong môi trường development
+            imgPath = path.join(__dirname, this.iconPath);
+            console.log('Development path:', {
+                appPath: app.getAppPath(),
+                iconPath: this.iconPath,
+                fullPath: imgPath
+            });
+        }
+
+        try {
+            const image = nativeImage.createFromPath(imgPath);
+            if (image.isEmpty()) {
+                console.error('Image is empty at path:', imgPath);
+                return null;
+            }
+            // Marks the image as a template image.
+            image.setTemplateImage(true);
+            return image;
+        } catch (error) {
+            console.error('Error creating native image:', error);
+            return null;
+        }
     }
 
     createMenu(): Menu {

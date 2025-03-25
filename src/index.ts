@@ -49,3 +49,10 @@ ipcMain.on('close-window', (event, data) => {
     }
 });
 
+ipcMain.on('submit-result', (event, eventData) => {
+    if (eventData) {
+        const { learningResult, collectionName, data } = eventData
+        appManager.getWindow("FlashcardWindow").hide();
+    }
+});
+

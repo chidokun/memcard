@@ -31,7 +31,7 @@ export class FlashcardWindow extends Window {
 
         // Load our index.html
         window.loadURL(appManager.getConfig('MAIN_WINDOW_WEBPACK_ENTRY'))
-        window.setAlwaysOnTop(true, 'screen-saver', 1)
+        window.setAlwaysOnTop(true, 'floating', 1)
 
         return window
     }

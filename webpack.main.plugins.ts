@@ -10,7 +10,8 @@ export const plugins = [
   }),
   new CopyWebpackPlugin({
     patterns: [
-      { from: 'collections', to: 'collections' } // Sao chép toàn bộ thư mục resource vào dist/resource
+      { from: 'collections', to: 'collections' },
+      { from: 'src/assets', to: 'assets' }
     ]
   })
 ];

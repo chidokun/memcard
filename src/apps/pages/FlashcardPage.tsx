@@ -19,6 +19,7 @@ export const FlashcardPage: React.FC = () => {
     return (
         <div onMouseOver={() => setCloseVisible(true)}
             onMouseLeave={() => setCloseVisible(false)}
+            className="fcard-container"
         >
             <div className="fcard-close" style={{visibility: closeVisible ? "visible" : "hidden"}}>
                 <Button type="text" shape="circle" icon={<CloseOutlined />} onClick={() => window.service.closeWindow("FlashcardWindow")}/>

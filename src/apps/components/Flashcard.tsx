@@ -15,7 +15,7 @@ interface FlashcardProps {
 export default function Flashcard({ width, height, data, showBack, onShowBack }: FlashcardProps) {
 
     return (
-        <div>
+        <div className="fcard-container">
             <motion.div
                 initial={{ x: 0 }}
                 animate={{ x: showBack ? "-100%" : "0%" }}
@@ -43,14 +43,14 @@ export default function Flashcard({ width, height, data, showBack, onShowBack }:
                 animate={{ x: showBack ? "0%" : "100%" }}
                 transition={{ type: "spring", stiffness: 100 }}
             >
-                <div className="fcard" style={{ width, height }}>
+                <div className="fcard" style={{ width, height, display: showBack ? "flex" : "none" }}>
                     <div className="fcard-content">
                         <p>{data?.back}</p>
                     </div>
                     <div className="fcard-bottom">
                         <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<LeftCircleOutlined />} onClick={() => onShowBack(false)} />
-                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<FrownOutlined />} />
-                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<SmileOutlined />} />
+                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<FrownOutlined />} onClick={() => window.service.submitResult("not ok", data?.collectionName, data)} />
+                        <Button shape="circle" type="text" style={{ fontSize: "1.25rem" }} icon={<SmileOutlined />} onClick={() => window.service.submitResult("ok", data?.collectionName, data)} />
                     </div>
                 </div>
             </motion.div>

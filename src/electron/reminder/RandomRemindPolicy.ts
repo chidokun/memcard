@@ -10,14 +10,10 @@ export class RandomRemindPolicy implements RemindPolicy {
 
     nextRemind(): Flashcard {
         const collection = this.collectionManager.getCurrentCollection()
-        const randomIndex = Math.floor(Math.random() * collection.getData().length)
-        
-        const data = collection.getData()[randomIndex]
-        return {
-            collectionName: collection.getName(),
-            id: data["id"],
-            front: data["korean"],
-            back: data["vietnamese"],
-        }
+        const randomIndex = Math.floor(Math.random() * collection.getFlashcards().length)
+
+        const card = collection.getFlashcards()[randomIndex]
+        console.log("Remind card:", card)
+        return card
     }
 }

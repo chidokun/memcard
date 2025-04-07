@@ -1,0 +1,34 @@
+{
+    "name": "Korean Vocabulary",
+    "id": "korean_vocabulary",
+    "version": "1.0.0",
+    "author": "Nguyễn Lê Hoàng Tuấn",
+    "author_email": "nguyentuanit96@gmail.com",
+    "description": "A collection of Korean vocabulary",
+    "data": [
+        {
+            "type": "file",
+            "format": "csv",
+            "path": "korean_vocabulary.csv",
+            "columns": [
+                {
+                    "name": "card_id",
+                    "type": "string"
+                },
+                {
+                    "name": "korean",
+                    "type": "string"
+                },
+                {
+                    "name": "vietnamese",
+                    "type": "string"
+                }
+            ],
+            "flashcards": {
+                "id": "card_id",
+                "front": "korean",
+                "back": "vietnamese"
+            }
+        }
+    ]
+}

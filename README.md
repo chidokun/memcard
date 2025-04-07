@@ -23,9 +23,14 @@ A desktop application designed to help you learn and memorize information effect
 - Spaced repetition system based on learner feedback
 - Support for external flashcard decks
 - Multi-language support
-- Windows and Linux compatibility
 
 
 ## Author
 
 - Nguyễn Lê Hoàng Tuấn (nguyentuanit96@gmail.com) 
+
+## Contributors
+
+<a href = "https://github.com/chidokun/memcard/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=chidokun/memcard"/>
+</a>

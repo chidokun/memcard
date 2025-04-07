@@ -3,6 +3,7 @@ import path from 'path'
 import csv from 'csv-parser'
 import { appConfig } from '../configs/AppConfig'
 import { Collection } from './Collection'
+import { Flashcard } from './Flashcard'
 
 export class CollectionManager {
     private collectionsDir: string
@@ -17,22 +18,60 @@ export class CollectionManager {
         })
     }
 
-    public async loadAllCollections(): Promise<Map<string, Collection>> {
+    public loadAllCollections = async (): Promise<Map<string, Collection>> => {
         const collections = new Map<string, Collection>()
-        const files = fs.readdirSync(this.collectionsDir)
+        const collectionDirs = fs.readdirSync(this.collectionsDir)
 
-        for (const file of files) {
-            if (path.extname(file) === '.csv') {
-                const collectionName = path.basename(file, '.csv')
-                const collectionData = await this.loadCollection(path.join(this.collectionsDir, file))
-                collections.set(collectionName, new Collection(collectionName, collectionData))
+        for (const collectionDir of collectionDirs) {
+            const collectionPath = path.join(this.collectionsDir, collectionDir)
+
+            if (!fs.statSync(collectionPath).isDirectory()) {
+                continue
             }
+
+            const configPath = path.join(collectionPath, 'collection.json')
+
+            if (!fs.existsSync(configPath)) {
+                continue
+            }
+
+            try {
+                const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+                const collectionId = configData.id
+
+                let flashcards: Flashcard[] = []
+                for (const dataSource of configData.data) {
+                    if (dataSource.type === 'file' && dataSource.format === 'csv') {
+                        const dataPath = path.join(collectionPath, dataSource.path)
+                        if (!fs.existsSync(dataPath)) {
+                            continue
+                        }
+
+                        const sourceData = await this.loadCollection(dataPath)
+
+                        const flashCardConfig = dataSource.flashcards
+                        flashcards = flashcards.concat(sourceData.map((data: any) => ({
+                                collectionName: configData.name,
+                                id: data[flashCardConfig.id],
+                                front: data[flashCardConfig.front],
+                                back: data[flashCardConfig.back],
+                            } as Flashcard)))    
+                    }
+                }
+
+                const collection = new Collection(collectionId, flashcards)
+                collection.setMetadata(configData)
+                collections.set(collectionId, collection)
+            } catch (error) {
+                console.error(`Error loading collection ${collectionDir}:`, error)
+            }
+
         }
 
         return collections
     }
 
-    private loadCollection(filePath: string): Promise<any[]> {
+    private loadCollection = (filePath: string): Promise<any[]> => {
         return new Promise((resolve, reject) => {
             const results: any[] = []
             fs.createReadStream(filePath)
@@ -43,20 +82,20 @@ export class CollectionManager {
         })
     }
 
-    public getCollectionNames(): string[] {
-        return Array.from(this.collectionsMap.keys()) || []
+    public getAllCollections = (): Map<string, Collection> => {
+        return this.collectionsMap
     }
 
-    public getCurrentCollection(): Collection {
+    public getCurrentCollection = (): Collection => {
         let currentCollection = appConfig.get('currentCollection')
         return this.collectionsMap.get(currentCollection)
     }
 
-    public getCollection(collectionName: string): Collection {   
+    public getCollection = (collectionName: string): Collection => {
         return this.collectionsMap.get(collectionName)
     }
 
-    public setAfterCollectionLoading(callback: () => void): void {
+    public setAfterCollectionLoading = (callback: () => void): void => {
         this.afterCollectionLoading = callback
     }
 }

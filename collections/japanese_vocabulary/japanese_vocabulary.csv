@@ -1,0 +1,101 @@
+card_id,japanese,vietnamese
+1,こんにちは,xin chào
+2,ありがとう,cảm ơn
+3,はい,vâng
+4,いいえ,không
+5,お元気ですか,bạn có khỏe không
+6,元気です,tôi khỏe
+7,さようなら,tạm biệt
+8,すみません,xin lỗi
+9,水,nước
+10,食べ物,đồ ăn
+11,ご飯,cơm
+12,水,nước lọc
+13,コーヒー,cà phê
+14,お茶,trà
+15,一,một
+16,二,hai
+17,三,ba
+18,四,bốn
+19,五,năm
+20,六,sáu
+21,七,bảy
+22,八,tám
+23,九,chín
+24,十,mười
+25,今日,hôm nay
+26,明日,ngày mai
+27,昨日,hôm qua
+28,朝,sáng
+29,昼,trưa
+30,夕方,chiều
+31,夜,tối
+32,いくらですか,giá bao nhiêu
+33,高い,đắt
+34,安い,rẻ
+35,買う,mua
+36,売る,bán
+37,店,cửa hàng
+38,市場,chợ
+39,ホテル,khách sạn
+40,部屋,phòng
+41,トイレ,phòng tắm
+42,天気,thời tiết
+43,暑い,nóng
+44,寒い,lạnh
+45,雨,mưa
+46,晴れ,nắng
+47,バス,bus
+48,電車,tàu hỏa
+49,飛行機,máy bay
+50,船,thuyền
+51,左,trái
+52,右,phải
+53,まっすぐ,đi thẳng
+54,戻る,quay lại
+55,近い,gần
+56,遠い,xa
+57,どこ,ở đâu
+58,いつ,khi nào
+59,なぜ,tại sao
+60,どうやって,như thế nào
+61,だれ,ai
+62,何,cái gì
+63,いくつ,bao nhiêu
+64,時間,thời gian
+65,分,phút
+66,時,giờ
+67,日,ngày
+68,月,tháng
+69,年,năm
+70,日曜日,chủ nhật
+71,月曜日,thứ hai
+72,火曜日,thứ ba
+73,水曜日,thứ tư
+74,木曜日,thứ năm
+75,金曜日,thứ sáu
+76,土曜日,thứ bảy
+77,色,màu sắc
+78,赤,đỏ
+79,黄,vàng
+80,緑,xanh lá
+81,青,xanh dương
+82,黒,đen
+83,白,trắng
+84,ピンク,hồng
+85,オレンジ,cam
+86,紫,tím
+87,灰色,xám
+88,大きい,to
+89,小さい,nhỏ
+90,高い,cao
+91,低い,thấp
+92,厚い,dày
+93,薄い,mỏng
+94,重い,nặng
+95,軽い,nhẹ
+96,速い,nhanh
+97,遅い,chậm
+98,良い,tốt
+99,悪い,không tốt
+100,美しい,đẹp 

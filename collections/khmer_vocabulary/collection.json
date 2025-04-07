@@ -1,0 +1,34 @@
+{
+    "name": "Khmer Vocabulary",
+    "id": "khmer_vocabulary",
+    "version": "1.0.0",
+    "author": "Nguyễn Lê Hoàng Tuấn",
+    "author_email": "nguyentuanit96@gmail.com",
+    "description": "A collection of basic Khmer vocabulary",
+    "data": [
+        {
+            "type": "file",
+            "format": "csv",
+            "path": "khmer_vocabulary.csv",
+            "columns": [
+                {
+                    "name": "card_id",
+                    "type": "string"
+                },
+                {
+                    "name": "khmer",
+                    "type": "string"
+                },
+                {
+                    "name": "vietnamese",
+                    "type": "string"
+                }
+            ],
+            "flashcards": {
+                "id": "card_id",
+                "front": "khmer",
+                "back": "vietnamese"
+            }
+        }
+    ]
+} 

@@ -4,14 +4,8 @@ import { appConfig } from './configs/AppConfig';
 import path from 'path';
 
 export class TrayMenu {
-    // Create a variable to store our tray
-    // Public: Make it accessible outside of the class;
-    // Readonly: Value can't be changed
     public readonly tray: Tray;
-
-    // Path where should we fetch our icon;
-    private iconPath: string = '/assets/tray/tray-icon.png';
-
+    private iconPath: string = '/assets/tray/tray-icon-Template.png';
 
     constructor() {
         this.tray = new Tray(this.createNativeImage());
@@ -23,25 +17,7 @@ export class TrayMenu {
     }
 
     createNativeImage() {
-        let imgPath: string;
-        
-        if (app.isPackaged) {
-            // Trong môi trường production (đã đóng gói)
-            imgPath = path.join(__dirname, this.iconPath);
-            console.log('Production path:', {
-                resourcesPath: process.resourcesPath,
-                iconPath: this.iconPath,
-                fullPath: imgPath
-            });
-        } else {
-            // Trong môi trường development
-            imgPath = path.join(__dirname, this.iconPath);
-            console.log('Development path:', {
-                appPath: app.getAppPath(),
-                iconPath: this.iconPath,
-                fullPath: imgPath
-            });
-        }
+        let imgPath = path.join(__dirname, this.iconPath);
 
         try {
             const image = nativeImage.createFromPath(imgPath);
@@ -59,6 +35,7 @@ export class TrayMenu {
     }
 
     createMenu(): Menu {
+        const collectionMap = appManager.getAllCollections()
         const contextMenu = Menu.buildFromTemplate([
             {
                 label: 'Nhắc thẻ tiếp theo',
@@ -72,16 +49,14 @@ export class TrayMenu {
                 label: 'Bộ thẻ',
                 type: 'submenu',
                 submenu: Menu.buildFromTemplate(
-                    appManager.getCollectionNames().map((collectionName) => {
-                        return {
-                            label: collectionName,
-                            type: 'radio',
-                            checked: appConfig.get('currentCollection') === collectionName,
-                            click: () => {
-                                appConfig.set('currentCollection', collectionName);
-                            }
+                    Array.from(collectionMap.keys()).map(id => ({
+                        label: collectionMap.get(id)?.getName(),
+                        type: 'radio',
+                        checked: appConfig.get('currentCollection') === id,
+                        click: () => {
+                            appConfig.set('currentCollection', id);
                         }
-                    }))
+                    })))
             }, {
                 type: 'separator'
             }, {

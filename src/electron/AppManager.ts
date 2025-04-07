@@ -5,6 +5,7 @@ import { appConfig, AppConfig } from './configs/AppConfig'
 import { CollectionManager } from './collections/CollectionManager'
 import { ReminderManager } from './reminder/ReminderManager'
 import { RandomRemindPolicy } from './reminder/RandomRemindPolicy'
+import { Collection } from './collections/Collection'
 
 
 class AppManager {
@@ -33,14 +34,14 @@ class AppManager {
         }
     }
 
-    private loadReminderManager(): ReminderManager {
+    private loadReminderManager = (): ReminderManager => {
         const remindPolicy = new RandomRemindPolicy(this.collectionManager)
         const reminderManager = new ReminderManager(remindPolicy)
 
         return reminderManager
     }
 
-    setTray(tray: TrayMenu): void {
+    setTray = (tray: TrayMenu): void => {
         this.trayMenu = tray
     }
 
@@ -48,11 +49,11 @@ class AppManager {
         return this.trayMenu
     }
 
-    setConfig(name: string, value: any): void {
+    setConfig = (name: string, value: any): void => {
         this.runtimeConfigManager.set(name, value)
     }
 
-    getConfig(name: string): any {
+    getConfig = (name: string): any => {
         const value = this.runtimeConfigManager.get(name)
         if (value) {
             return value
@@ -60,11 +61,11 @@ class AppManager {
         throw new Error(`[AppManager] - Config with name ${name} doesn't exist!`)
     }
 
-    setWindow(name: string, element: Window): void {
+    setWindow = (name: string, element: Window): void => {
         this.windowManager.set(name, element)
     }
 
-    getWindow(name: string): Window {
+    getWindow = (name: string): Window => {
         const element = this.windowManager.get(name)
         return element
         // if (element) {
@@ -73,19 +74,19 @@ class AppManager {
         // throw new Error(`[AppManager] - Element with name ${name} doesn't exist!`)
     }
 
-    deleteWindow(name: string): void {
+    deleteWindow = (name: string): void => {
         this.windowManager.delete(name)
     }
 
-    getCollectionNames(): string[] {
-        return this.collectionManager.getCollectionNames()
+    getAllCollections = (): Map<string, Collection> => {
+        return this.collectionManager.getAllCollections()
     }
 
-    getConnectionManager(): CollectionManager {
+    getConnectionManager = (): CollectionManager => {
         return this.collectionManager
     }
 
-    reloadReminder = () => {
+    reloadReminder = (): void => {
         this.reminderManager.stopRemind()
         const reminderEnable = appConfig.get('reminderEnable')
         if (reminderEnable) {  
